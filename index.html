@@ -1,0 +1,42 @@
+<form id="noticia-form">
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" required><br>
+  
+    <label for="conteudo">Conteúdo:</label>
+    <textarea id="conteudo" required></textarea><br>
+  
+    <label for="imagem">Imagem (opcional):</label>
+    <input type="text" id="imagem"><br>
+  
+    <button type="submit">Adicionar Notícia</button>
+  </form>
+  
+  <script>
+    document.getElementById('noticia-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const titulo = document.getElementById('titulo').value;
+      const conteudo = document.getElementById('conteudo').value;
+      const imagem = document.getElementById('imagem').value;
+  
+      const response = await fetch('http://localhost:3000/api/noticias', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          titulo: titulo,
+          conteudo: conteudo,
+          imagem: imagem
+        })
+      });
+  
+      const data = await response.json();
+      if (response.status === 201) {
+        alert('Notícia criada com sucesso!');
+      } else {
+        alert('Erro ao criar notícia: ' + data.error);
+      }
+    });
+  </script>
+  

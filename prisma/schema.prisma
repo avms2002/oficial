@@ -1,0 +1,52 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  comments  Comment[]
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  userId    Int
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+// Definindo o modelo de Notícia
+model Noticia {
+  id          Int      @id @default(autoincrement())  // ID único
+  titulo      String   // Título da notícia
+  conteudo    String   // Conteúdo da notícia
+  imagem      String?  // URL ou caminho da imagem (opcional)
+  dataCriacao DateTime @default(now())  // Data de criação (com valor padrão: hora atual)
+}
+
+// Definindo o modelo de Tutorial
+model Tutorial {
+  id          Int      @id @default(autoincrement())  // ID único
+  titulo      String   // Título do tutorial
+  conteudo    String   // Conteúdo do tutorial
+  imagem      String?  // URL ou caminho da imagem (opcional)
+  videoUrl    String?  // URL do vídeo do tutorial (opcional)
+  dataCriacao DateTime @default(now())  // Data de criação (com valor padrão: hora atual)
+}
